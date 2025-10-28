@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import {GiHamburgerMenu} from 'react-icons/gi'
 import {FiLogOut} from 'react-icons/fi'
-import {IoMdHome} from 'react-icons/io'
+import {IoMdHome, IoIosClose} from 'react-icons/io'
 import {FaMoon, FaFireAlt} from 'react-icons/fa'
 import {SiYoutubegaming} from 'react-icons/si'
 import {MdPlaylistAdd} from 'react-icons/md'
@@ -30,7 +30,7 @@ export const NotFoundPara = styled.p`
 `
 export const HeaderContainer = styled.div`
   height: 10vh;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   position: fixed;
   top: 0;
   width: 100%;
@@ -129,20 +129,19 @@ export const SidebarContainer = styled.div`
   height: 90vh;
   top: 10vh;
   width: 20vw;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  justicy-content: space-between;
+  justify-content: space-between;
   align-items: flex-start;
-  @media screen and (min-width: 768px) {
-    display: block;
-  }
-
   /* Mobile: toggle visibility */
   @media screen and (max-width: 767px) {
-    display: ${({show}) => (show ? 'block' : 'none')};
+    display: ${({show}) => (show ? 'flex' : 'none')};
     width: 60vw;
+    flex-direction: column; /* 👈 added */
+    justify-content: space-between; /* 👈 added */
+    align-items: flex-start;
   }
 `
 export const UnorderedListContainer = styled.div`
@@ -158,39 +157,161 @@ export const ListItem = styled.li`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  margin: 10px;
-  padding: 0;
+  margin: 0;
+  padding: 10px 20px;
+  border-radius: 3px;
+  width: 100%;
+  background-color: ${({active}) => (active ? '#f1f5f9' : 'transparent')};
+  cursor: pointer;
 `
 export const SideHomeIcon = styled(IoMdHome)`
-  height: 28px;
-  width: 28px;
+  height: 20px;
+  width: 20px;
   margin-right: 30px;
   margin-left: 0px;
+  color: ${({active}) => (active ? '#ff0000' : '#000000')};
 `
 export const SideTrendingIcon = styled(FaFireAlt)`
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
   margin-right: 30px;
   margin-left: 0px;
+  color: ${({active}) => (active ? '#ff0000' : '#000000')};
 `
 export const SideGamingIcon = styled(SiYoutubegaming)`
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
   margin-right: 30px;
   margin-left: 0px;
+  color: ${({active}) => (active ? '#ff0000' : '#000000')};
 `
 export const SideSavedIcon = styled(MdPlaylistAdd)`
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
   margin-right: 30px;
   margin-left: 0px;
+  color: ${({active}) => (active ? '#ff0000' : '#000000')};
 `
 export const SideListItem = styled.p`
-  font-size: 18px;
+  font-size: 15px;
   margin: 0;
+  font-weight: ${({active}) => (active ? 'bold' : 'normal')};
+  color: #475569;
 `
 export const LinkItems = styled(Link)`
   text-decoration: none;
   font-family: 'Roboto';
   color: #212121;
+`
+export const SideLowerContainer = styled.div`
+  margin: 15px;
+`
+
+export const SideContactUs = styled.h1`
+  color: #1e293b;
+  font-weight: 20px;
+`
+export const SideIconsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+export const ImageLogos = styled.img`
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+`
+export const SideLowerPara = styled.p`
+  color: #1e293b;
+`
+export const HomeContainer = styled.div`
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+`
+export const HomeFirstContainer = styled.div`
+  background-image: url('https://assets.ccbp.in/frontend/react-js/nxt-watch-banner-bg.png');
+  height: 30vh;
+  background-size: cover;
+  background-position: center;
+  height: 30vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+`
+export const HomeFirstdiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin-top: 10px;
+`
+export const HomeCloseIcon = styled(IoIosClose)`
+  font-size: 30px;
+`
+export const HomeBannersLogo = styled.img`
+  height: 30px;
+  width: 120px;
+`
+export const HomeBannerPara = styled.p`
+  color: #1e293b;
+  font-weight: 400;
+`
+export const HomeGetButton = styled.button`
+  width: 100px;
+  height: 35px;
+  background-color: transparent;
+  border-color: #1e293b;
+  color: #1e293b;
+  border-style: solid;
+  border-width: 1px;
+  font-weight: bold;
+  padding: 5px;
+  margin-top: 10px;
+`
+export const HomeClose = styled.button`
+  background-color: transparent;
+  border-style: none;
+  margin-top: 5px;
+`
+export const HomeSecondContainer = styled.div`
+  padding: 10px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+`
+export const LoaderContainer = styled.div`
+  margin: 20px;
+`
+export const FailureContainer = styled.div`
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+export const HomeFailureImage = styled.img`
+  height: 30vh;
+  width: 20vw;
+`
+export const FailureHeading = styled.h1`
+  color: #1e293b;
+  font-family: 'Roboto';
+`
+export const FailurePara = styled.p`
+  color: #475569;
+  font-family: 'Roboto';
+`
+export const FailureButton = styled.button`
+  background-color: #4f46e5;
+  color: white;
+  border-style: none;
+  width: 100px;
+  border-radius: 5px;
+  height: 30px;
+`
+export const HomeVideosUnorderedList = styled.ul`
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 `
