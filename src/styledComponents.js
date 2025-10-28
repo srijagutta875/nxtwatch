@@ -1,7 +1,12 @@
 import styled from 'styled-components'
-import {FaMoon} from 'react-icons/fa'
 import {GiHamburgerMenu} from 'react-icons/gi'
 import {FiLogOut} from 'react-icons/fi'
+import {IoMdHome} from 'react-icons/io'
+import {FaMoon, FaFireAlt} from 'react-icons/fa'
+import {SiYoutubegaming} from 'react-icons/si'
+import {MdPlaylistAdd} from 'react-icons/md'
+
+import {Link} from 'react-router-dom'
 
 export const NotFoundContainer = styled.div`
   height: 100vh;
@@ -48,7 +53,7 @@ export const HeaderRightSideLg = styled.div`
   justify-content: space-around;
   @media screen and (max-width: 767px) {
     display: none;
-}
+  }
 `
 export const HeaderThemeButton = styled.button`
   background-color: transparent;
@@ -89,39 +94,103 @@ export const HeaderRightSideSm = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  width: 20%;
-  
+  width: auto;
+
   @media screen and (min-width: 768px) {
     display: none;
   }
 `
-export const HomeContainer = styled.div`
+export const PageLayoutContainer = styled.div`
   min-height: 100vh;
   width: 100vw;
   overflow: hidden;
 `
-export const HomeContainerInner = styled.div`
+export const PageLayoutContainerInner = styled.div`
   display: flex;
   flex-direction: row;
   height: 90vh;
   width: 100vw;
   margin-top: 10vh;
 `
-export const HomeContent = styled.div`  
+export const PageLayoutContent = styled.div`
   width: 80vw;
   padding: 10px;
   overflow-y: auto;
+  @media screen and (min-width: 768px) {
+    margin-left: 20vw;
+  }
   @media screen and (max-width: 768px) {
     width: 100vw; /* Full width when sidebar hidden */
+    margin-left: 0;
   }
 `
 export const SidebarContainer = styled.div`
   position: fixed;
   height: 90vh;
-  top: 10vh; 
+  top: 10vh;
   width: 20vw;
   background-color: #f9f9f9;
-  @media screen and (max-width: 768px) {
-    display: none;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justicy-content: space-between;
+  align-items: flex-start;
+  @media screen and (min-width: 768px) {
+    display: block;
   }
+
+  /* Mobile: toggle visibility */
+  @media screen and (max-width: 767px) {
+    display: ${({show}) => (show ? 'block' : 'none')};
+    width: 60vw;
+  }
+`
+export const UnorderedListContainer = styled.div`
+  padding: 10px;
+`
+export const UnorderedList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`
+export const ListItem = styled.li`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 10px;
+  padding: 0;
+`
+export const SideHomeIcon = styled(IoMdHome)`
+  height: 28px;
+  width: 28px;
+  margin-right: 30px;
+  margin-left: 0px;
+`
+export const SideTrendingIcon = styled(FaFireAlt)`
+  height: 25px;
+  width: 25px;
+  margin-right: 30px;
+  margin-left: 0px;
+`
+export const SideGamingIcon = styled(SiYoutubegaming)`
+  height: 25px;
+  width: 25px;
+  margin-right: 30px;
+  margin-left: 0px;
+`
+export const SideSavedIcon = styled(MdPlaylistAdd)`
+  height: 25px;
+  width: 25px;
+  margin-right: 30px;
+  margin-left: 0px;
+`
+export const SideListItem = styled.p`
+  font-size: 18px;
+  margin: 0;
+`
+export const LinkItems = styled(Link)`
+  text-decoration: none;
+  font-family: 'Roboto';
+  color: #212121;
 `

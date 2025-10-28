@@ -15,6 +15,7 @@ import {
 
 class Header extends Component {
   render() {
+    const {onToggleChange} = this.props
     return (
       <>
         <HeaderContainer>
@@ -33,9 +34,15 @@ class Header extends Component {
             <HeaderLogoutButton type="button">Logout</HeaderLogoutButton>
           </HeaderRightSideLg>
           <HeaderRightSideSm>
-            <HeaderThemeButton type="button" className="headerthemeButton">
+            <HeaderThemeButton type="button">
               <HeaderThemeIcon />
+            </HeaderThemeButton>
+
+            <HeaderThemeButton type="button" onClick={onToggleChange}>
               <HeaderMenuIcon />
+            </HeaderThemeButton>
+
+            <HeaderThemeButton type="button">
               <HeaderLogoutIcon />
             </HeaderThemeButton>
           </HeaderRightSideSm>
