@@ -109,17 +109,14 @@ export const PageLayoutContainerInner = styled.div`
   display: flex;
   flex-direction: row;
   height: 90vh;
-  width: 100vw;
   margin-top: 10vh;
 `
 export const PageLayoutContent = styled.div`
   width: 80vw;
   padding: 10px;
   overflow-y: auto;
-  @media screen and (min-width: 768px) {
-    margin-left: 20vw;
-  }
-  @media screen and (max-width: 768px) {
+  margin-left: 20vw;
+  @media screen and (max-width: 767px) {
     width: 100vw; /* Full width when sidebar hidden */
     margin-left: 0;
   }
@@ -134,14 +131,14 @@ export const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: stretch;
   /* Mobile: toggle visibility */
   @media screen and (max-width: 767px) {
     display: ${({show}) => (show ? 'flex' : 'none')};
     width: 60vw;
     flex-direction: column; /* 👈 added */
     justify-content: space-between; /* 👈 added */
-    align-items: flex-start;
+    align-items: stretch;
   }
 `
 export const UnorderedListContainer = styled.div`
@@ -202,6 +199,8 @@ export const LinkItems = styled(Link)`
   text-decoration: none;
   font-family: 'Roboto';
   color: #212121;
+  display: flex; /* ✅ makes it fill horizontally */
+  width: 100%;
 `
 export const SideLowerContainer = styled.div`
   margin: 15px;
@@ -225,7 +224,6 @@ export const SideLowerPara = styled.p`
   color: #1e293b;
 `
 export const HomeContainer = styled.div`
-  padding: 10px;
   display: flex;
   flex-direction: column;
 `
@@ -234,7 +232,6 @@ export const HomeFirstContainer = styled.div`
   height: 30vh;
   background-size: cover;
   background-position: center;
-  height: 30vh;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -314,4 +311,77 @@ export const HomeVideosUnorderedList = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+`
+export const LoginContainer = styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-directin: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+`
+export const LoginCard = styled.div`
+  height: 55vh;
+  width: 35vw;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  padding-top: 30px;
+  padding-left: 40px;
+`
+export const LoginLogos = styled.img`
+  height: 40px;
+  width: 40%;
+  margin-bottom: 20px;
+  align-self: center;
+  @media screen and max-width: 768px {
+    width: 80%;
+  }
+`
+export const LoginForm = styled.form`
+    margin: 10px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-itens-center;
+`
+export const LoginsLabel = styled.label`
+  margin-bottom: 0px;
+  color: #7e858e;
+  font-weight: 700;
+  font-size: 13px;
+`
+export const LoginInput = styled.input`
+  margin-top: 4px;
+  padding: 12px;
+  height: 36px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+  outline: none;
+
+  &:focus {
+    border-color: #3b82f6;
+  }
+`
+export const LoginShowPassword = styled.div`
+  margin-top: 8px;
+`
+export const LoginsButton = styled.button`
+  background-color: #3b82f6;
+  margin-top: 20px;
+  height: 35px;
+  border-style: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+`
+export const LoginErrorMsg = styled.p`
+  color: #ff0b37;
+  margin-top: 0px;
 `
