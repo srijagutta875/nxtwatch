@@ -1,8 +1,11 @@
 import {Component} from 'react'
 
+import Cookies from 'js-cookie'
+
 import Loader from 'react-loader-spinner'
 
 import PageLayout from '../PageLayout'
+import VideoCard from '../VideoCard'
 
 import {
   HomeContainer,
@@ -21,6 +24,10 @@ import {
   FailurePara,
   FailureButton,
   HomeVideosUnorderedList,
+  HomeSearchContainer,
+  HomeSearchIcon,
+  HomeSearchInput,
+  HomeSearchsButton,
 } from '../../styledComponents'
 
 const apiStatusConst = {
@@ -35,6 +42,7 @@ class Home extends Component {
     toShow: true,
     searchInput: '',
     updatedData: [],
+    allVideos: [],
     apiStatus: apiStatusConst.initial,
   }
 
@@ -47,11 +55,18 @@ class Home extends Component {
       apiStatus: apiStatusConst.progress,
     })
     const {searchInput} = this.state
+    const jwtToken = Cookies.get('jwt_token')
     const apiUrl =
       searchInput === ''
         ? 'https://apis.ccbp.in/videos/all'
         : `https://apis.ccbp.in/videos/all?search=${searchInput}`
-    const response = await fetch(apiUrl)
+    const options = {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      method: 'GET',
+    }
+    const response = await fetch(apiUrl, options)
     const data = await response.json()
     if (response.ok === true) {
       const updatedData = data.videos.map(each => ({
@@ -60,9 +75,10 @@ class Home extends Component {
         thumbnailUrl: each.thumbnail_url,
         channel: each.channel,
         viewCount: each.view_count,
-        punlishedAt: each.published_at,
+        publishedAt: each.published_at,
       }))
       this.setState({
+        allVideos: updatedData,
         updatedData,
         apiStatus: apiStatusConst.success,
       })
@@ -82,13 +98,41 @@ class Home extends Component {
   renderLoader = () => (
     <LoaderContainer>
       <div className="loader-container" data-testid="loader">
-        <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+        <Loader type="ThreeDots" color="#000000" height="50" width="50" />
       </div>
     </LoaderContainer>
   )
 
   retryButtonClicked = () => {
     this.getVideos()
+  }
+
+  searchValueChange = event => {
+    this.setState({
+      searchInput: event.target.value,
+    })
+  }
+
+  onEnterSearch = event => {
+    if (event.key === 'Enter') {
+      this.searchButtonClicked()
+    }
+  }
+
+  searchButtonClicked = () => {
+    const {allVideos, searchInput} = this.state
+    if (searchInput === '') {
+      this.setState({
+        updatedData: allVideos,
+      })
+      return
+    }
+    const filteredData = allVideos.filter(each =>
+      each.title.toLowerCase().includes(searchInput.toLowerCase()),
+    )
+    this.setState({
+      updatedData: filteredData,
+    })
   }
 
   renderFailure = () => (
@@ -110,13 +154,24 @@ class Home extends Component {
   renderSuccesView = () => {
     const {updatedData} = this.state
     console.log(updatedData)
+    if (updatedData.length <= 0) {
+      return (
+        <FailureContainer>
+          <HomeFailureImage
+            src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
+            alt="no videos"
+          />
+          <FailureHeading>No Search Results Found</FailureHeading>
+          <FailurePara>
+            Try different keywords or remove the search filter.
+          </FailurePara>
+        </FailureContainer>
+      )
+    }
     return (
       <HomeVideosUnorderedList>
         {updatedData.map(each => (
-          <li>
-            <h1>{each.title}</h1>
-            <img src={each.thumbnailUrl} alt={each.title} />
-          </li>
+          <VideoCard key={each.id} details={each} />
         ))}
       </HomeVideosUnorderedList>
     )
@@ -137,7 +192,7 @@ class Home extends Component {
   }
 
   render() {
-    const {toShow} = this.state
+    const {toShow, searchInput} = this.state
     return (
       <PageLayout>
         <HomeContainer>
@@ -160,7 +215,21 @@ class Home extends Component {
           ) : (
             ''
           )}
-          <HomeSecondContainer>{this.renderDetails()}</HomeSecondContainer>
+          <HomeSecondContainer>
+            <HomeSearchContainer>
+              <HomeSearchInput
+                type="search"
+                value={searchInput}
+                placeholder="Search"
+                onChange={this.searchValueChange}
+                onKeyDown={this.onEnterSearch}
+              />
+              <HomeSearchsButton onClick={this.searchButtonClicked}>
+                <HomeSearchIcon />
+              </HomeSearchsButton>
+            </HomeSearchContainer>
+            {this.renderDetails()}
+          </HomeSecondContainer>
         </HomeContainer>
       </PageLayout>
     )

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import {GiHamburgerMenu} from 'react-icons/gi'
 import {FiLogOut} from 'react-icons/fi'
-import {IoMdHome, IoIosClose} from 'react-icons/io'
+import {IoMdHome, IoIosClose, IoIosSearch} from 'react-icons/io'
 import {FaMoon, FaFireAlt} from 'react-icons/fa'
 import {SiYoutubegaming} from 'react-icons/si'
 import {MdPlaylistAdd} from 'react-icons/md'
@@ -96,7 +96,7 @@ export const HeaderRightSideSm = styled.div`
   justify-content: space-around;
   width: auto;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 767px) {
     display: none;
   }
 `
@@ -135,7 +135,7 @@ export const SidebarContainer = styled.div`
   /* Mobile: toggle visibility */
   @media screen and (max-width: 767px) {
     display: ${({show}) => (show ? 'flex' : 'none')};
-    width: 60vw;
+    width: 40vw;
     flex-direction: column; /* 👈 added */
     justify-content: space-between; /* 👈 added */
     align-items: stretch;
@@ -279,6 +279,11 @@ export const HomeSecondContainer = styled.div`
 `
 export const LoaderContainer = styled.div`
   margin: 20px;
+  margin-top: 50px;
+  display: flex;
+  flex-directin: column;
+  justify-content: center;
+  align-items: center;
 `
 export const FailureContainer = styled.div`
   height: 80vh;
@@ -384,4 +389,109 @@ export const LoginsButton = styled.button`
 export const LoginErrorMsg = styled.p`
   color: #ff0b37;
   margin-top: 0px;
+`
+export const HomeSearchContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px;
+`
+export const HomeSearchInput = styled.input`
+  padding: 12px;
+  height: 36px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px 0 0 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+  outline: none;
+  width: 40%;
+  &:focus {
+    border-color: #3b82f6;
+  }
+`
+export const HomeSearchIcon = styled(IoIosSearch)`
+  height: 20px;
+  width: 20px;
+  margin-left: 10px;
+`
+export const HomeSearchsButton = styled.button`
+  height: 36px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-style: none;
+  border: 1px solid #cbd5e1; /* merges smoothly with input */
+  border-radius: 0 4px 4px 0;
+`
+export const VideoListsItem = styled.li`
+  height: 50vh;
+  width: 25%;
+  padding: 10px;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  @media screen and (min-width: 768px) and (max-width: 1200px) {
+    width: 48%;
+    height: 40vh;
+    padding: 6px;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 46%;
+  }
+
+  @media screen and (max-width: 480px) {
+    width: 96%;
+  }
+`
+export const VideoThumb = styled.img`
+  height: 50%;
+  width: 100%;
+`
+export const VideoChannelLogo = styled.img`
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  flex-shrink: 0;
+`
+export const VideoLogosDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 10px;
+  gap: 5px;
+`
+export const VideoLogInsideDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+`
+export const VideoTitlePara = styled.p`
+  color: #1e293b;
+  font-size: 15px;
+  margin: 0;
+  line-height: 1.4;
+  @media screen and (min-width: 767px) and (max-width: 1200px) {
+    font-size: 13px;
+  }
+`
+export const VideoName = styled.p`
+  color: #616e7c;
+  font-size: 14px;
+  margin: 4px 0;
+`
+export const VideoSmall = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+`
+export const VideoSmallP = styled.p`
+  color: #616e7c;
+  margin-right: 5px;
 `

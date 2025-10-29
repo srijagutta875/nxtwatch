@@ -1,5 +1,9 @@
 import {Component} from 'react'
 
+import Cookies from 'js-cookie'
+
+import {withRouter} from 'react-router-dom'
+
 import {
   HeaderContainer,
   HeaderLogo,
@@ -14,6 +18,12 @@ import {
 } from '../../styledComponents'
 
 class Header extends Component {
+  LogoutButtonClicked = () => {
+    const {history} = this.props
+    Cookies.remove('jwt_token')
+    history.replace('/login')
+  }
+
   render() {
     const {onToggleChange} = this.props
     return (
@@ -31,7 +41,12 @@ class Header extends Component {
               src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png"
               alt="profile"
             />
-            <HeaderLogoutButton type="button">Logout</HeaderLogoutButton>
+            <HeaderLogoutButton
+              type="button"
+              onClick={this.LogoutButtonClicked}
+            >
+              Logout
+            </HeaderLogoutButton>
           </HeaderRightSideLg>
           <HeaderRightSideSm>
             <HeaderThemeButton type="button">
@@ -42,7 +57,7 @@ class Header extends Component {
               <HeaderMenuIcon />
             </HeaderThemeButton>
 
-            <HeaderThemeButton type="button">
+            <HeaderThemeButton type="button" onClick={this.LogoutButtonClicked}>
               <HeaderLogoutIcon />
             </HeaderThemeButton>
           </HeaderRightSideSm>
@@ -51,4 +66,4 @@ class Header extends Component {
     )
   }
 }
-export default Header
+export default withRouter(Header)
