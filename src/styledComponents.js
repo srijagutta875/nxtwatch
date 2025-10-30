@@ -209,6 +209,7 @@ export const SideLowerContainer = styled.div`
 export const SideContactUs = styled.h1`
   color: #1e293b;
   font-weight: 20px;
+  font-size: 20px;
 `
 export const SideIconsContainer = styled.div`
   display: flex;
@@ -426,7 +427,7 @@ export const HomeSearchsButton = styled.button`
   border-radius: 0 4px 4px 0;
 `
 export const VideoListsItem = styled.li`
-  height: 50vh;
+  height: 45vh;
   width: 25%;
   padding: 10px;
   &:hover {
@@ -494,4 +495,14 @@ export const VideoSmall = styled.div`
 export const VideoSmallP = styled.p`
   color: #616e7c;
   margin-right: 5px;
+`
+export const VideoLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+  display: block; /* ensures it behaves like a block container */
+`
+export const VideoPlayerDiv = styled.div`
+  display: flex;
+  flex-direcion: column;
+  align-items: center;
 `
