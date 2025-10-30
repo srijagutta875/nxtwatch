@@ -5,6 +5,8 @@ import {IoMdHome, IoIosClose, IoIosSearch} from 'react-icons/io'
 import {FaMoon, FaFireAlt} from 'react-icons/fa'
 import {SiYoutubegaming} from 'react-icons/si'
 import {MdPlaylistAdd} from 'react-icons/md'
+import {AiOutlineLike} from 'react-icons/ai'
+import {BiDislike} from 'react-icons/bi'
 
 import {Link} from 'react-router-dom'
 
@@ -427,25 +429,32 @@ export const HomeSearchsButton = styled.button`
   border-radius: 0 4px 4px 0;
 `
 export const VideoListsItem = styled.li`
-  height: 45vh;
-  width: 25%;
-  padding: 10px;
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  @media screen and (min-width: 768px) and (max-width: 1200px) {
-    width: 48%;
-    height: 40vh;
-    padding: 6px;
-  }
+height: auto;
+min-height: 300px; /* optional baseline */
+width: 25%;
+padding: 10px;
+transition: all 0.3s ease;
 
-  @media screen and (max-width: 768px) {
-    width: 46%;
-  }
+&:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-  @media screen and (max-width: 480px) {
-    width: 96%;
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  width: 48%;
+  min-height: 250px;
+  padding: 6px;
+}
+
+@media screen and (max-width: 768px) {
+  width: 46%;
+  min-height: 220px;
+}
+
+@media screen and (max-width: 480px) {
+  width: 96%;
+  min-height: 200px;
+}
   }
 `
 export const VideoThumb = styled.img`
@@ -505,4 +514,83 @@ export const VideoPlayerDiv = styled.div`
   display: flex;
   flex-direcion: column;
   align-items: center;
+`
+export const VideoItemTitle = styled.p`
+  color: #1e293b;
+  font-weight: 400;
+`
+export const VideoItemContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
+export const HorizontalLines = styled.hr`
+  border: none;
+  height: 1px;
+  background-color: rgba(66, 66, 66, 0.2); /* 0.2 = 20% intensity */
+`
+export const VideoLikeButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: transparent;
+  border-style: none;
+  color: #616e7c;
+  color: inherit;
+`
+export const LikeIcon = styled(AiOutlineLike)`
+  font-size: 15px;
+  margin-right: 2px;
+`
+export const DislikeIcon = styled(BiDislike)`
+  font-size: 15px;
+  margin-right: 2px;
+`
+export const SavedIcon = styled(MdPlaylistAdd)`
+  font-size: 15px;
+  margin-right: 2px;
+`
+export const VideoActionsList = styled.ul`
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+`
+export const VideoActionItem = styled.li`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: ${({active}) =>
+    active ? '#2563eb' : '#64748b'}; /* blue when active */
+  cursor: pointer;
+  transition: color 0.3s ease;
+`
+
+export const VideoDescriptionCont = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+`
+export const Logoimg = styled.img`
+  height: 5%;
+  width: 5%;
+  margin-right: 10px;
+  margin-top: 10px;
+`
+export const VideoChannelName = styled.p`
+  font-size: 15px;
+  color: #1e293b;
+  margin-bottom: 3px;
+`
+export const VideoChannelViews = styled.p`
+  font-size: 11px;
+  color: #616e7c;
+`
+export const VideoChannelDescription = styled.p`
+  font-size: 11px;
+  color: #475569;
 `

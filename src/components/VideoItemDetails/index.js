@@ -16,6 +16,20 @@ import {
   FailureButton,
   VideoSmall,
   VideoSmallP,
+  VideoItemTitle,
+  VideoItemContainer,
+  HorizontalLines,
+  VideoActionsList,
+  VideoActionItem,
+  VideoLikeButton,
+  LikeIcon,
+  DislikeIcon,
+  SavedIcon,
+  VideoDescriptionCont,
+  Logoimg,
+  VideoChannelName,
+  VideoChannelDescription,
+  VideoChannelViews,
 } from '../../styledComponents'
 
 const apiStatusConst = {
@@ -25,8 +39,19 @@ const apiStatusConst = {
   progress: 'PROGRESS',
 }
 
+const videoActions = [
+  {id: 1, label: 'Like', icon: LikeIcon},
+  {id: 2, label: 'Dislike', icon: DislikeIcon},
+  {id: 3, label: 'Save', icon: SavedIcon},
+]
+
 class VideoItemDetails extends Component {
-  state = {videoData: {}, apiStatus: apiStatusConst.initial}
+  state = {
+    videoData: {},
+    apiStatus: apiStatusConst.initial,
+    activeAction: '',
+    isSave: false,
+  }
 
   componentDidMount() {
     this.getVideoItemDetails()
@@ -88,29 +113,73 @@ class VideoItemDetails extends Component {
     )
   }
 
+  ButtonClicked = label => {
+    if (label === 'Like' || label === 'Dislike') {
+      this.setState({
+        activeAction: label,
+      })
+    } else if (label === 'Save') {
+      this.setState(prevState => ({isSave: !prevState.isSave}))
+    }
+  }
+
   renderSuccesView = () => {
-    const {videoData} = this.state
+    const {videoData, activeAction, isSave} = this.state
     const date = parse(videoData.publishedAt, 'MMM dd, yyyy', new Date())
     return (
       <div>
         {this.VideoPlayer()}
-        <p>{videoData.title}</p>
-        <div>
+        <VideoItemTitle>{videoData.title}</VideoItemTitle>
+        <VideoItemContainer>
           <VideoSmall>
             <VideoSmallP>{videoData.viewCount} views</VideoSmallP>
-            <VideoSmallP>, {formatDistanceToNow(date)} ago</VideoSmallP>
+            <VideoSmallP>{formatDistanceToNow(date)} ago</VideoSmallP>
           </VideoSmall>
-          <div>lIKe,dislike,save</div>
-          <hr />
-          <div>
-            <img
+          <VideoActionsList>
+            {videoActions.map(action => {
+              const Icon = action.icon
+              const isSaveAction = action.label === 'Save'
+              let labelText
+              if (action.label === 'Save') {
+                labelText = isSave ? 'Saved' : 'Save'
+              } else {
+                labelText = action.label
+              }
+              return (
+                <VideoActionItem
+                  key={action.id}
+                  active={
+                    activeAction === action.label || (isSave && isSaveAction)
+                  }
+                >
+                  <VideoLikeButton
+                    onClick={() => this.ButtonClicked(action.label)}
+                  >
+                    <Icon alt={action.label} />
+                    {labelText}
+                  </VideoLikeButton>
+                </VideoActionItem>
+              )
+            })}
+          </VideoActionsList>
+        </VideoItemContainer>
+        <div>
+          <HorizontalLines />
+          <VideoDescriptionCont>
+            <Logoimg
               src={videoData.channel.profileImageUrl}
               alt={videoData.title}
             />
-            <p>{videoData.channel.name}</p>
-            <p>{videoData.channel.subscriberCount} subscribers</p>
-            <p>{videoData.description}</p>
-          </div>
+            <div>
+              <VideoChannelName>{videoData.channel.name}</VideoChannelName>
+              <VideoChannelViews>
+                {videoData.channel.subscriberCount} subscribers
+              </VideoChannelViews>
+              <VideoChannelDescription>
+                {videoData.description}
+              </VideoChannelDescription>
+            </div>
+          </VideoDescriptionCont>
         </div>
       </div>
     )
