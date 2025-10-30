@@ -7,7 +7,6 @@ import {SiYoutubegaming} from 'react-icons/si'
 import {MdPlaylistAdd} from 'react-icons/md'
 import {AiOutlineLike} from 'react-icons/ai'
 import {BiDislike} from 'react-icons/bi'
-
 import {Link} from 'react-router-dom'
 
 export const NotFoundContainer = styled.div`
@@ -572,7 +571,6 @@ export const VideoActionItem = styled.li`
 export const VideoDescriptionCont = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: flex-start;
 `
 export const Logoimg = styled.img`
@@ -593,4 +591,209 @@ export const VideoChannelViews = styled.p`
 export const VideoChannelDescription = styled.p`
   font-size: 11px;
   color: #475569;
+`
+export const LogoutCancelButton = styled.button`
+  background-color: transparent;
+  color: #616e7c;
+  font-weight: bold;
+  border-style: none;
+  height: 30px;
+  width: 100px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #475569;
+  font-weight: 200;
+  border-width: 1px;
+  cursor: pointer;
+`
+export const LogoutPa = styled.p`
+  color: #1e293b;
+  font-weight: 400;
+`
+export const LogoutConfirmButton = styled.button`
+  background-color: #3b82f6;
+  color: white;
+  font-weight: bold;
+  border-style: none;
+  height: 30px;
+  width: 100px;
+  border-radius: 5px;
+  margin-left: 15px;
+  cursor: pointer;
+`
+export const LogoutConfirmCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+`
+export const TrendingContainer = styled.div`
+  min-height: 100vh;
+  background-color: #f9f9f9;
+`
+export const TrendingFirstContainer = styled.div`
+  height: 15vh;
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  padding-left: 30px;
+`
+export const MainTrendingIcon = styled(FaFireAlt)`
+  color: #ff0000;
+`
+export const MainTrendingCont = styled.div`
+  background-color: #e2e8f0;
+  border-radius: 50px;
+  height: 60px;
+  width: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+`
+export const TrendingVideoUnorderedList = styled.ul`
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+`
+export const TrendingVideoListItem = styled.li`
+transition: all 0.3s ease;
+  display: flex;
+  flex-direction: row;
+font-family: "Roboto" 
+
+&:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+  width: 100%;
+   padding: 20px;
+  }
+`
+export const TrendingVideosThumb = styled.img`
+  height: 90%;
+  width: 50%;
+`
+export const TrendingLogsInsideDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  margin-left: 20px;
+  margin: 10px;
+  height: 90%;
+`
+export const TrendingVideoTitlePara = styled.p`
+  color: #1e293b;
+  font-size: 20px;
+  margin: 0;
+  line-height: 1.4;
+  font-weight: bold;
+  margin-bottom: 10px;
+
+  @media screen and (max-width: 1200px) {
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 10px;
+  }
+`
+export const TrendVideoName = styled.p`
+  color: #475569;
+  font-size: 16px;
+  margin: 0;
+  line-height: 1.3;
+
+  @media screen and (max-width: 1200px) {
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 10px;
+  }
+`
+
+export const TrendingVideoSmallP = styled.p`
+  margin: 0;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  &:not(:last-child)::after {
+    content: '•';
+    margin-left: 2px;
+    margin-right: 0px;
+  }
+`
+export const TrendingVideoSmall = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748b; /* Soft gray-blue tone */
+  font-size: 14px;
+  margin-top: 5px;
+
+  @media screen and (max-width: 1200px) {
+    font-size: 13px;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 10px;
+  }
+`
+export const TrendingVideosLink = styled(Link)`
+  color: inherit;
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+`
+export const MainGamingIcon = styled(SiYoutubegaming)`
+  color: #ff0000;
+`
+export const GamingVideoUnorderedList = styled.ul`
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 10px;
+`
+export const GamingVideoList = styled.li`
+  min-width: 20vw;
+  margin: 10px;
+`
+export const GamingVideoImg = styled.img`
+  heigth: 400px;
+  width: 200px;
+`
+export const GamingVideoP = styled.p`
+  color: #1e293b;
+  font-weight: 500;
+  margin-bottom: 2px;
+`
+export const GamingViewPara = styled.p`
+  margin-top: 2px;
+  color: #475569;
+`
+export const GamingVideosLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
 `
