@@ -13,10 +13,15 @@ import Trending from './components/Trending'
 import Gaming from './components/Gaming'
 import SavedVideos from './components/SavedVideos'
 import LanguageContext from './context/LanguageContext'
+import ThemeContext from './context/ThemeContext'
 
 // Replace your code here
 class App extends Component {
-  state = {savedVideos: []}
+  state = {savedVideos: [], isDarkTheme: false}
+
+  toggleTheme = () => {
+    this.setState(prevState => ({isDarkTheme: !prevState.isDarkTheme}))
+  }
 
   addSavedVideos = video => {
     this.setState(prevState => {
@@ -31,26 +36,34 @@ class App extends Component {
   }
 
   render() {
-    const {savedVideos} = this.state
+    const {savedVideos, isDarkTheme} = this.state
     return (
-      <LanguageContext.Provider
-        value={{savedVideos, addSavedVideos: this.addSavedVideos}}
+      <ThemeContext.Provider
+        value={{isDarkTheme, toggleTheme: this.toggleTheme}}
       >
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <ProtectedRoute exact path="/" component={Home} />
-          <ProtectedRoute exact path="/trending" component={Trending} />
-          <ProtectedRoute exact path="/gaming" component={Gaming} />
-          <ProtectedRoute
-            exact
-            path="/videos/:id"
-            component={VideoItemDetails}
-          />
-          <ProtectedRoute exact path="/not-found" component={NotFound} />
-          <ProtectedRoute exact path="/saved-videos" component={SavedVideos} />
-          <Redirect to="/not-found" />
-        </Switch>
-      </LanguageContext.Provider>
+        <LanguageContext.Provider
+          value={{savedVideos, addSavedVideos: this.addSavedVideos}}
+        >
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <ProtectedRoute exact path="/" component={Home} />
+            <ProtectedRoute exact path="/trending" component={Trending} />
+            <ProtectedRoute exact path="/gaming" component={Gaming} />
+            <ProtectedRoute
+              exact
+              path="/videos/:id"
+              component={VideoItemDetails}
+            />
+            <Route exact path="/not-found" component={NotFound} />
+            <ProtectedRoute
+              exact
+              path="/saved-videos"
+              component={SavedVideos}
+            />
+            <Redirect to="/not-found" />
+          </Switch>
+        </LanguageContext.Provider>
+      </ThemeContext.Provider>
     )
   }
 }

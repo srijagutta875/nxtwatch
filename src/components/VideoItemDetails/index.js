@@ -5,6 +5,7 @@ import {formatDistanceToNow, parse} from 'date-fns'
 import Loader from 'react-loader-spinner'
 import PageLayout from '../PageLayout'
 import LanguageContext from '../../context/LanguageContext'
+import ThemeContext from '../../context/ThemeContext'
 
 import {
   HomeSecondContainer,
@@ -114,9 +115,10 @@ class VideoItemDetails extends Component {
     )
   }
 
-  renderSuccesView = () => {
+  renderSuccesView = isDarkTheme => {
     const {videoData, activeAction, isSave} = this.state
     const date = parse(videoData.publishedAt, 'MMM dd, yyyy', new Date())
+
     return (
       <LanguageContext.Consumer>
         {value => {
@@ -124,31 +126,36 @@ class VideoItemDetails extends Component {
           const ButtonClicked = label => {
             if (label === 'Like' || label === 'Dislike') {
               this.setState(prevState => ({
-                activeAction: prevState.activeAction === label ? '' : label, // toggle logic
+                activeAction: prevState.activeAction === label ? '' : label,
               }))
             } else if (label === 'Save') {
               this.setState(prevState => ({isSave: !prevState.isSave}))
               addSavedVideos(videoData)
             }
           }
+
           return (
             <div>
               {this.VideoPlayer()}
-              <VideoItemTitle>{videoData.title}</VideoItemTitle>
-              <VideoItemContainer>
+              <VideoItemTitle isDarkTheme={isDarkTheme}>
+                {videoData.title}
+              </VideoItemTitle>
+              <VideoItemContainer isDarkTheme={isDarkTheme}>
                 <VideoSmall>
-                  <VideoSmallP>{videoData.viewCount} views</VideoSmallP>
-                  <VideoSmallP>{formatDistanceToNow(date)} ago</VideoSmallP>
+                  <VideoSmallP isDarkTheme={isDarkTheme}>
+                    {videoData.viewCount} views
+                  </VideoSmallP>
+                  <VideoSmallP isDarkTheme={isDarkTheme}>
+                    {formatDistanceToNow(date)} ago
+                  </VideoSmallP>
                 </VideoSmall>
                 <VideoActionsList>
                   {videoActions.map(action => {
                     const Icon = action.icon
                     const isSaveAction = action.label === 'Save'
-                    let labelText
-                    if (action.label === 'Save') {
+                    let labelText = action.label
+                    if (isSaveAction) {
                       labelText = isSave ? 'Saved' : 'Save'
-                    } else {
-                      labelText = action.label
                     }
                     return (
                       <VideoActionItem
@@ -157,9 +164,15 @@ class VideoItemDetails extends Component {
                           activeAction === action.label ||
                           (isSave && isSaveAction)
                         }
+                        isDarkTheme={isDarkTheme}
                       >
                         <VideoLikeButton
                           onClick={() => ButtonClicked(action.label)}
+                          isDarkTheme={isDarkTheme}
+                          active={
+                            activeAction === action.label ||
+                            (isSave && isSaveAction)
+                          }
                         >
                           <Icon alt={action.label} />
                           {labelText}
@@ -170,20 +183,20 @@ class VideoItemDetails extends Component {
                 </VideoActionsList>
               </VideoItemContainer>
               <div>
-                <HorizontalLines />
-                <VideoDescriptionCont>
+                <HorizontalLines isDarkTheme={isDarkTheme} />
+                <VideoDescriptionCont isDarkTheme={isDarkTheme}>
                   <Logoimg
                     src={videoData.channel.profileImageUrl}
-                    alt={videoData.title}
+                    alt="channel logo"
                   />
                   <div>
-                    <VideoChannelName>
+                    <VideoChannelName isDarkTheme={isDarkTheme}>
                       {videoData.channel.name}
                     </VideoChannelName>
-                    <VideoChannelViews>
+                    <VideoChannelViews isDarkTheme={isDarkTheme}>
                       {videoData.channel.subscriberCount} subscribers
                     </VideoChannelViews>
-                    <VideoChannelDescription>
+                    <VideoChannelDescription isDarkTheme={isDarkTheme}>
                       {videoData.description}
                     </VideoChannelDescription>
                   </div>
@@ -224,7 +237,7 @@ class VideoItemDetails extends Component {
     </FailureContainer>
   )
 
-  videoDetails = () => {
+  videoDetails = isDarkTheme => {
     const {apiStatus} = this.state
     switch (apiStatus) {
       case apiStatusConst.progress:
@@ -232,7 +245,7 @@ class VideoItemDetails extends Component {
       case apiStatusConst.failure:
         return this.renderFailure()
       case apiStatusConst.success:
-        return this.renderSuccesView()
+        return this.renderSuccesView(isDarkTheme)
       default:
         return null
     }
@@ -240,10 +253,20 @@ class VideoItemDetails extends Component {
 
   render() {
     return (
-      <PageLayout>
-        <HomeSecondContainer>{this.videoDetails()}</HomeSecondContainer>
-      </PageLayout>
+      <ThemeContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+          return (
+            <PageLayout>
+              <HomeSecondContainer isDarkTheme={isDarkTheme}>
+                {this.videoDetails(isDarkTheme)}
+              </HomeSecondContainer>
+            </PageLayout>
+          )
+        }}
+      </ThemeContext.Consumer>
     )
   }
 }
+
 export default VideoItemDetails

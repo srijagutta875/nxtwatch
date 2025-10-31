@@ -1,7 +1,7 @@
 import {Component} from 'react'
-
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
+import ThemeContext from '../../context/ThemeContext'
 import PageLayout from '../PageLayout'
 import TrendingVideoCard from '../TrendingVideoCard'
 
@@ -34,9 +34,7 @@ class Trending extends Component {
   }
 
   getTrendingVideos = async () => {
-    this.setState({
-      apiStatus: apiStatusConst.progress,
-    })
+    this.setState({apiStatus: apiStatusConst.progress})
     const apiUrl = 'https://apis.ccbp.in/videos/trending'
     const jwtToken = Cookies.get('jwt_token')
     const options = {
@@ -60,16 +58,19 @@ class Trending extends Component {
         apiStatus: apiStatusConst.success,
       })
     } else {
-      this.setState({
-        apiStatus: apiStatusConst.failure,
-      })
+      this.setState({apiStatus: apiStatusConst.failure})
     }
   }
 
-  renderLoader = () => (
+  renderLoader = isDarkTheme => (
     <LoaderContainer>
       <div className="loader-container" data-testid="loader">
-        <Loader type="ThreeDots" color="#000000" height="50" width="50" />
+        <Loader
+          type="ThreeDots"
+          color={isDarkTheme ? '#ffffff' : '#000000'}
+          height="50"
+          width="50"
+        />
       </div>
     </LoaderContainer>
   )
@@ -78,15 +79,21 @@ class Trending extends Component {
     this.getTrendingVideos()
   }
 
-  renderFailure = () => (
+  renderFailure = isDarkTheme => (
     <FailureContainer>
       <HomeFailureImage
-        src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
+        src={
+          isDarkTheme
+            ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
+            : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
+        }
         alt="failure view"
       />
-      <FailureHeading>Oops! Something Went Wrong</FailureHeading>
-      <FailurePara>
-        We are having some trouble completing your request.Please try again.
+      <FailureHeading isDarkTheme={isDarkTheme}>
+        Oops! Something Went Wrong
+      </FailureHeading>
+      <FailurePara isDarkTheme={isDarkTheme}>
+        We are having some trouble completing your request. Please try again.
       </FailurePara>
       <FailureButton type="button" onClick={this.retryButtonClicked}>
         Retry
@@ -94,27 +101,30 @@ class Trending extends Component {
     </FailureContainer>
   )
 
-  renderSuccesView = () => {
+  renderSuccesView = isDarkTheme => {
     const {trendingVideos} = this.state
-    console.log(trendingVideos)
     return (
       <TrendingVideoUnorderedList>
         {trendingVideos.map(each => (
-          <TrendingVideoCard key={each.id} details={each} />
+          <TrendingVideoCard
+            key={each.id}
+            details={each}
+            isDarkTheme={isDarkTheme}
+          />
         ))}
       </TrendingVideoUnorderedList>
     )
   }
 
-  renderDetails = () => {
+  renderDetails = isDarkTheme => {
     const {apiStatus} = this.state
     switch (apiStatus) {
       case apiStatusConst.progress:
-        return this.renderLoader()
+        return this.renderLoader(isDarkTheme)
       case apiStatusConst.failure:
-        return this.renderFailure()
+        return this.renderFailure(isDarkTheme)
       case apiStatusConst.success:
-        return this.renderSuccesView()
+        return this.renderSuccesView(isDarkTheme)
       default:
         return null
     }
@@ -122,18 +132,31 @@ class Trending extends Component {
 
   render() {
     return (
-      <PageLayout>
-        <TrendingContainer>
-          <TrendingFirstContainer>
-            <MainTrendingCont>
-              <MainTrendingIcon />
-            </MainTrendingCont>
-            <h1>Trending</h1>
-          </TrendingFirstContainer>
-          {this.renderDetails()}
-        </TrendingContainer>
-      </PageLayout>
+      <ThemeContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+          return (
+            <PageLayout>
+              <TrendingContainer
+                isDarkTheme={isDarkTheme}
+                data-testid="trending"
+              >
+                <TrendingFirstContainer isDarkTheme={isDarkTheme}>
+                  <MainTrendingCont isDarkTheme={isDarkTheme}>
+                    <MainTrendingIcon isDarkTheme={isDarkTheme} />
+                  </MainTrendingCont>
+                  <h1 style={{color: isDarkTheme ? '#ffffff' : '#1e293b'}}>
+                    Trending
+                  </h1>
+                </TrendingFirstContainer>
+                {this.renderDetails(isDarkTheme)}
+              </TrendingContainer>
+            </PageLayout>
+          )
+        }}
+      </ThemeContext.Consumer>
     )
   }
 }
+
 export default Trending

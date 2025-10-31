@@ -1,8 +1,7 @@
 import {Component} from 'react'
-
 import Cookies from 'js-cookie'
-
 import {Redirect} from 'react-router-dom'
+import ThemeContext from '../../context/ThemeContext'
 
 import {
   LoginContainer,
@@ -26,41 +25,30 @@ class Login extends Component {
   }
 
   onCheckboxChanged = event => {
-    this.setState({
-      passwordShow: event.target.checked,
-    })
+    this.setState({passwordShow: event.target.checked})
   }
 
   inputNameChanged = event => {
-    this.setState({
-      username: event.target.value,
-    })
+    this.setState({username: event.target.value})
   }
 
   inputPasswordChange = event => {
-    this.setState({
-      password: event.target.value,
-    })
+    this.setState({password: event.target.value})
   }
 
-  submitSuccess = jsonData => {
+  submitSuccess = jwtToken => {
     const {history} = this.props
-    Cookies.set('jwt_token', jsonData, {expires: 30})
+    Cookies.set('jwt_token', jwtToken, {expires: 30})
     history.replace('/')
   }
 
   submitFailure = errorMsg => {
-    this.setState({
-      showSubmitError: true,
-      errorMsg,
-    })
+    this.setState({showSubmitError: true, errorMsg})
   }
 
   submittingForm = async event => {
     event.preventDefault()
     const {username, password} = this.state
-    console.log(username)
-    console.log(password)
     const userDetails = {username, password}
     const apiUrl = 'https://apis.ccbp.in/login'
     const options = {
@@ -88,45 +76,66 @@ class Login extends Component {
     if (jwtToken !== undefined) {
       return <Redirect to="/" />
     }
+
     return (
-      <LoginContainer>
-        <LoginCard>
-          <LoginLogos
-            src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-            alt="website logo"
-          />
-          <LoginForm onSubmit={this.submittingForm}>
-            <LoginsLabel htmlFor="username">USERNAME</LoginsLabel>
-            <LoginInput
-              id="username"
-              type="name"
-              value={username}
-              placeholder="Username"
-              onChange={this.inputNameChanged}
-            />
-            <br />
-            <LoginsLabel htmlFor="password">PASSWORD </LoginsLabel>
-            <LoginInput
-              id="password"
-              type={passwordShow ? 'text' : 'password'}
-              value={password}
-              placeholder="Password"
-              onChange={this.inputPasswordChange}
-            />
-            <LoginShowPassword>
-              <input
-                id="checkbox"
-                type="checkbox"
-                onChange={this.onCheckboxChanged}
-              />
-              <label htmlFor="checkbox">Show Password</label>
-            </LoginShowPassword>
-            <LoginsButton type="submit">Login</LoginsButton>
-            {showSubmitError && <LoginErrorMsg>*{errorMsg}</LoginErrorMsg>}
-          </LoginForm>
-        </LoginCard>
-      </LoginContainer>
+      <ThemeContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+          console.log(isDarkTheme)
+          const logoUrl = isDarkTheme
+            ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+            : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+
+          return (
+            <LoginContainer isDarkTheme={isDarkTheme}>
+              <LoginCard isDarkTheme={isDarkTheme}>
+                <LoginLogos src={logoUrl} alt="website logo" />
+                <LoginForm onSubmit={this.submittingForm}>
+                  <LoginsLabel htmlFor="username" isDarkTheme={isDarkTheme}>
+                    USERNAME
+                  </LoginsLabel>
+                  <LoginInput
+                    id="username"
+                    type="text"
+                    value={username}
+                    placeholder="Username"
+                    onChange={this.inputNameChanged}
+                    isDarkTheme={isDarkTheme}
+                  />
+                  <br />
+                  <LoginsLabel htmlFor="password" isDarkTheme={isDarkTheme}>
+                    PASSWORD
+                  </LoginsLabel>
+                  <LoginInput
+                    id="password"
+                    type={passwordShow ? 'text' : 'password'}
+                    value={password}
+                    placeholder="Password"
+                    onChange={this.inputPasswordChange}
+                    isDarkTheme={isDarkTheme}
+                  />
+                  <LoginShowPassword isDarkTheme={isDarkTheme}>
+                    <input
+                      id="checkbox"
+                      type="checkbox"
+                      onChange={this.onCheckboxChanged}
+                    />
+                    <label htmlFor="checkbox">Show Password</label>
+                  </LoginShowPassword>
+                  <LoginsButton type="submit" isDarkTheme={isDarkTheme}>
+                    Login
+                  </LoginsButton>
+                  {showSubmitError && (
+                    <LoginErrorMsg>*{errorMsg}</LoginErrorMsg>
+                  )}
+                </LoginForm>
+              </LoginCard>
+            </LoginContainer>
+          )
+        }}
+      </ThemeContext.Consumer>
     )
   }
 }
+
 export default Login

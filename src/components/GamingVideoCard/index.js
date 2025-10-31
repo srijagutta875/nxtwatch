@@ -1,3 +1,4 @@
+import ThemeContext from '../../context/ThemeContext'
 import {
   GamingVideoList,
   GamingVideoImg,
@@ -11,13 +12,23 @@ const GamingVideoCard = props => {
   const {id, title, thumbnailUrl, viewCount} = details
 
   return (
-    <GamingVideoList>
-      <GamingVideosLink to={`/videos/${id}`}>
-        <GamingVideoImg src={thumbnailUrl} alt="video thumbnail" />
-        <GamingVideoP>{title}</GamingVideoP>
-        <GamingViewPara>{viewCount} Watching Worldwide</GamingViewPara>
-      </GamingVideosLink>
-    </GamingVideoList>
+    <ThemeContext.Consumer>
+      {value => {
+        const {isDarkTheme} = value
+        return (
+          <GamingVideoList isDarkTheme={isDarkTheme}>
+            <GamingVideosLink to={`/videos/${id}`}>
+              <GamingVideoImg src={thumbnailUrl} alt="video thumbnail" />
+              <GamingVideoP isDarkTheme={isDarkTheme}>{title}</GamingVideoP>
+              <GamingViewPara isDarkTheme={isDarkTheme}>
+                {viewCount} Watching Worldwide
+              </GamingViewPara>
+            </GamingVideosLink>
+          </GamingVideoList>
+        )
+      }}
+    </ThemeContext.Consumer>
   )
 }
+
 export default GamingVideoCard

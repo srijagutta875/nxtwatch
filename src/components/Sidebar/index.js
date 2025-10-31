@@ -1,6 +1,6 @@
 import {Component} from 'react'
-
 import {withRouter} from 'react-router-dom'
+import ThemeContext from '../../context/ThemeContext'
 
 import {
   SidebarContainer,
@@ -31,46 +31,66 @@ class Sidebar extends Component {
   render() {
     const {show, location} = this.props
     const {pathname} = location
+
     return (
-      <SidebarContainer show={show}>
-        <UnorderedListContainer>
-          <UnorderedList>
-            {menuItems.map(item => {
-              const IconComponent = item.icon
-              const isActive = pathname === item.path
-              return (
-                <LinkItems to={item.path} key={item.id}>
-                  <ListItem active={isActive}>
-                    <IconComponent active={isActive} />
-                    <SideListItem active={isActive}>{item.name}</SideListItem>
-                  </ListItem>
-                </LinkItems>
-              )
-            })}
-          </UnorderedList>
-        </UnorderedListContainer>
-        <SideLowerContainer>
-          <SideContactUs>CONTACT US</SideContactUs>
-          <SideIconsContainer>
-            <ImageLogos
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-facebook-logo-img.png"
-              alt="facebook logo"
-            />
-            <ImageLogos
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-twitter-logo-img.png"
-              alt="twitter logo"
-            />
-            <ImageLogos
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-linked-in-logo-img.png"
-              alt="linked in logo"
-            />
-          </SideIconsContainer>
-          <SideLowerPara>
-            Enjoy! Now to see your channels and recommendations!
-          </SideLowerPara>
-        </SideLowerContainer>
-      </SidebarContainer>
+      <ThemeContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+
+          return (
+            <SidebarContainer show={show} isDarkTheme={isDarkTheme}>
+              <UnorderedListContainer>
+                <UnorderedList>
+                  {menuItems.map(item => {
+                    const IconComponent = item.icon
+                    const isActive = pathname === item.path
+                    return (
+                      <LinkItems to={item.path} key={item.id}>
+                        <ListItem active={isActive} isDarkTheme={isDarkTheme}>
+                          <IconComponent
+                            active={isActive}
+                            isDarkTheme={isDarkTheme}
+                          />
+                          <SideListItem
+                            active={isActive}
+                            isDarkTheme={isDarkTheme}
+                          >
+                            {item.name}
+                          </SideListItem>
+                        </ListItem>
+                      </LinkItems>
+                    )
+                  })}
+                </UnorderedList>
+              </UnorderedListContainer>
+              <SideLowerContainer isDarkTheme={isDarkTheme}>
+                <SideContactUs isDarkTheme={isDarkTheme}>
+                  CONTACT US
+                </SideContactUs>
+                <SideIconsContainer>
+                  <ImageLogos
+                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-facebook-logo-img.png"
+                    alt="facebook logo"
+                  />
+                  <ImageLogos
+                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-twitter-logo-img.png"
+                    alt="twitter logo"
+                  />
+                  <ImageLogos
+                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-linked-in-logo-img.png"
+                    alt="linked in logo"
+                  />
+                </SideIconsContainer>
+                <SideLowerPara isDarkTheme={isDarkTheme}>
+                  Enjoy! Now to see your channels and recommendations!
+                </SideLowerPara>
+              </SideLowerContainer>
+            </SidebarContainer>
+          )
+        }}
+      </ThemeContext.Consumer>
     )
   }
 }
+
 export default withRouter(Sidebar)

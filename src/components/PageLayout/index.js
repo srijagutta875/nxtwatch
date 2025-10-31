@@ -1,4 +1,5 @@
 import {Component} from 'react'
+import ThemeContext from '../../context/ThemeContext'
 
 import {
   PageLayoutContainer,
@@ -16,23 +17,30 @@ class PageLayout extends Component {
     this.setState(prevState => ({
       show: !prevState.show,
     }))
-    console.log('Toggle clicked')
   }
 
   render() {
     const {show} = this.state
-    console.log('Show value:', show)
     const {children} = this.props
-    console.log(children)
+
     return (
-      <PageLayoutContainer>
-        <Header onToggleChange={this.onToggleChanged} />
-        <PageLayoutContainerInner>
-          <Sidebar show={show} />
-          <PageLayoutContent>{children}</PageLayoutContent>
-        </PageLayoutContainerInner>
-      </PageLayoutContainer>
+      <ThemeContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+
+          return (
+            <PageLayoutContainer isDarkTheme={isDarkTheme}>
+              <Header onToggleChange={this.onToggleChanged} />
+              <PageLayoutContainerInner>
+                <Sidebar show={show} />
+                <PageLayoutContent>{children}</PageLayoutContent>
+              </PageLayoutContainerInner>
+            </PageLayoutContainer>
+          )
+        }}
+      </ThemeContext.Consumer>
     )
   }
 }
+
 export default PageLayout

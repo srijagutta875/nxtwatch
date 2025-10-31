@@ -1,9 +1,9 @@
 import {Component} from 'react'
-
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import PageLayout from '../PageLayout'
 import GamingVideoCard from '../GamingVideoCard'
+import ThemeContext from '../../context/ThemeContext'
 
 import {
   TrendingContainer,
@@ -34,15 +34,11 @@ class Gaming extends Component {
   }
 
   getGamingVideos = async () => {
-    this.setState({
-      apiStatus: apiStatusConst.progress,
-    })
+    this.setState({apiStatus: apiStatusConst.progress})
     const apiUrl = 'https://apis.ccbp.in/videos/gaming'
     const jwtToken = Cookies.get('jwt_token')
     const options = {
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
+      headers: {Authorization: `Bearer ${jwtToken}`},
     }
     const response = await fetch(apiUrl, options)
     if (response.ok === true) {
@@ -58,9 +54,7 @@ class Gaming extends Component {
         apiStatus: apiStatusConst.success,
       })
     } else {
-      this.setState({
-        apiStatus: apiStatusConst.failure,
-      })
+      this.setState({apiStatus: apiStatusConst.failure})
     }
   }
 
@@ -94,7 +88,6 @@ class Gaming extends Component {
 
   renderSuccesView = () => {
     const {gamingVideos} = this.state
-    console.log(gamingVideos)
     return (
       <GamingVideoUnorderedList>
         {gamingVideos.map(each => (
@@ -120,18 +113,26 @@ class Gaming extends Component {
 
   render() {
     return (
-      <PageLayout>
-        <TrendingContainer>
-          <TrendingFirstContainer>
-            <MainTrendingCont>
-              <MainGamingIcon />
-            </MainTrendingCont>
-            <h1>Gaming</h1>
-          </TrendingFirstContainer>
-          {this.renderDetails()}
-        </TrendingContainer>
-      </PageLayout>
+      <ThemeContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+          return (
+            <PageLayout>
+              <TrendingContainer isDarkTheme={isDarkTheme}>
+                <TrendingFirstContainer isDarkTheme={isDarkTheme}>
+                  <MainTrendingCont isDarkTheme={isDarkTheme}>
+                    <MainGamingIcon isDarkTheme={isDarkTheme} />
+                  </MainTrendingCont>
+                  <h1>Gaming</h1>
+                </TrendingFirstContainer>
+                {this.renderDetails()}
+              </TrendingContainer>
+            </PageLayout>
+          )
+        }}
+      </ThemeContext.Consumer>
     )
   }
 }
+
 export default Gaming
