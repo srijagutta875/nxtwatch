@@ -13,7 +13,7 @@ const NotFound = () => (
     />
     <NotFoundHeading>Page Not Found</NotFoundHeading>
     <NotFoundPara className="notfoundPara">
-      We are sorry, the page you are requested could not found.
+      we are sorry, the page you requested could not be found.
     </NotFoundPara>
   </NotFoundContainer>
 )

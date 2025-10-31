@@ -56,10 +56,7 @@ class Home extends Component {
     })
     const {searchInput} = this.state
     const jwtToken = Cookies.get('jwt_token')
-    const apiUrl =
-      searchInput === ''
-        ? 'https://apis.ccbp.in/videos/all'
-        : `https://apis.ccbp.in/videos/all?search=${searchInput}`
+    const apiUrl = `https://apis.ccbp.in/videos/all?search=${searchInput}`
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -163,8 +160,11 @@ class Home extends Component {
           />
           <FailureHeading>No Search Results Found</FailureHeading>
           <FailurePara>
-            Try different keywords or remove the search filter.
+            Try different key words or remove search filter
           </FailurePara>
+          <FailureButton type="button" onClick={this.retryButtonClicked}>
+            Retry
+          </FailureButton>
         </FailureContainer>
       )
     }
@@ -197,7 +197,7 @@ class Home extends Component {
       <PageLayout>
         <HomeContainer>
           {toShow ? (
-            <HomeFirstContainer>
+            <HomeFirstContainer data-testid="banner">
               <HomeFirstdiv>
                 <HomeBannersLogo
                   src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
@@ -208,7 +208,7 @@ class Home extends Component {
                 </HomeBannerPara>
                 <HomeGetButton type="button">GET IT NOW</HomeGetButton>
               </HomeFirstdiv>
-              <HomeClose onClick={this.closeButtonClicked}>
+              <HomeClose onClick={this.closeButtonClicked} data-testid="close">
                 <HomeCloseIcon />
               </HomeClose>
             </HomeFirstContainer>
@@ -224,7 +224,10 @@ class Home extends Component {
                 onChange={this.searchValueChange}
                 onKeyDown={this.onEnterSearch}
               />
-              <HomeSearchsButton onClick={this.searchButtonClicked}>
+              <HomeSearchsButton
+                onClick={this.searchButtonClicked}
+                data-testid="searchButton"
+              >
                 <HomeSearchIcon />
               </HomeSearchsButton>
             </HomeSearchContainer>

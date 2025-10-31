@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import {formatDistanceToNow, parse} from 'date-fns'
 import Loader from 'react-loader-spinner'
 import PageLayout from '../PageLayout'
+import LanguageContext from '../../context/LanguageContext'
 
 import {
   HomeSecondContainer,
@@ -113,75 +114,85 @@ class VideoItemDetails extends Component {
     )
   }
 
-  ButtonClicked = label => {
-    if (label === 'Like' || label === 'Dislike') {
-      this.setState({
-        activeAction: label,
-      })
-    } else if (label === 'Save') {
-      this.setState(prevState => ({isSave: !prevState.isSave}))
-    }
-  }
-
   renderSuccesView = () => {
     const {videoData, activeAction, isSave} = this.state
     const date = parse(videoData.publishedAt, 'MMM dd, yyyy', new Date())
     return (
-      <div>
-        {this.VideoPlayer()}
-        <VideoItemTitle>{videoData.title}</VideoItemTitle>
-        <VideoItemContainer>
-          <VideoSmall>
-            <VideoSmallP>{videoData.viewCount} views</VideoSmallP>
-            <VideoSmallP>{formatDistanceToNow(date)} ago</VideoSmallP>
-          </VideoSmall>
-          <VideoActionsList>
-            {videoActions.map(action => {
-              const Icon = action.icon
-              const isSaveAction = action.label === 'Save'
-              let labelText
-              if (action.label === 'Save') {
-                labelText = isSave ? 'Saved' : 'Save'
-              } else {
-                labelText = action.label
-              }
-              return (
-                <VideoActionItem
-                  key={action.id}
-                  active={
-                    activeAction === action.label || (isSave && isSaveAction)
-                  }
-                >
-                  <VideoLikeButton
-                    onClick={() => this.ButtonClicked(action.label)}
-                  >
-                    <Icon alt={action.label} />
-                    {labelText}
-                  </VideoLikeButton>
-                </VideoActionItem>
-              )
-            })}
-          </VideoActionsList>
-        </VideoItemContainer>
-        <div>
-          <HorizontalLines />
-          <VideoDescriptionCont>
-            <Logoimg
-              src={videoData.channel.profileImageUrl}
-              alt={videoData.title}
-            />
+      <LanguageContext.Consumer>
+        {value => {
+          const {addSavedVideos} = value
+          const ButtonClicked = label => {
+            if (label === 'Like' || label === 'Dislike') {
+              this.setState(prevState => ({
+                activeAction: prevState.activeAction === label ? '' : label, // toggle logic
+              }))
+            } else if (label === 'Save') {
+              this.setState(prevState => ({isSave: !prevState.isSave}))
+              addSavedVideos(videoData)
+            }
+          }
+          return (
             <div>
-              <VideoChannelName>{videoData.channel.name}</VideoChannelName>
-              <VideoChannelViews>
-                {videoData.channel.subscriberCount} subscribers
-              </VideoChannelViews>
-              <VideoChannelDescription>
-                {videoData.description}
-              </VideoChannelDescription>
+              {this.VideoPlayer()}
+              <VideoItemTitle>{videoData.title}</VideoItemTitle>
+              <VideoItemContainer>
+                <VideoSmall>
+                  <VideoSmallP>{videoData.viewCount} views</VideoSmallP>
+                  <VideoSmallP>{formatDistanceToNow(date)} ago</VideoSmallP>
+                </VideoSmall>
+                <VideoActionsList>
+                  {videoActions.map(action => {
+                    const Icon = action.icon
+                    const isSaveAction = action.label === 'Save'
+                    let labelText
+                    if (action.label === 'Save') {
+                      labelText = isSave ? 'Saved' : 'Save'
+                    } else {
+                      labelText = action.label
+                    }
+                    return (
+                      <VideoActionItem
+                        key={action.id}
+                        active={
+                          activeAction === action.label ||
+                          (isSave && isSaveAction)
+                        }
+                      >
+                        <VideoLikeButton
+                          onClick={() => ButtonClicked(action.label)}
+                        >
+                          <Icon alt={action.label} />
+                          {labelText}
+                        </VideoLikeButton>
+                      </VideoActionItem>
+                    )
+                  })}
+                </VideoActionsList>
+              </VideoItemContainer>
+              <div>
+                <HorizontalLines />
+                <VideoDescriptionCont>
+                  <Logoimg
+                    src={videoData.channel.profileImageUrl}
+                    alt={videoData.title}
+                  />
+                  <div>
+                    <VideoChannelName>
+                      {videoData.channel.name}
+                    </VideoChannelName>
+                    <VideoChannelViews>
+                      {videoData.channel.subscriberCount} subscribers
+                    </VideoChannelViews>
+                    <VideoChannelDescription>
+                      {videoData.description}
+                    </VideoChannelDescription>
+                  </div>
+                </VideoDescriptionCont>
+              </div>
             </div>
-          </VideoDescriptionCont>
-        </div>
-      </div>
+          )
+        }}
+      </LanguageContext.Consumer>
     )
   }
 

@@ -93,7 +93,7 @@ class Login extends Component {
         <LoginCard>
           <LoginLogos
             src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-            alt="next watch logo"
+            alt="website logo"
           />
           <LoginForm onSubmit={this.submittingForm}>
             <LoginsLabel htmlFor="username">USERNAME</LoginsLabel>

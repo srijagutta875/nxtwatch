@@ -62,11 +62,11 @@ class Sidebar extends Component {
             />
             <ImageLogos
               src="https://assets.ccbp.in/frontend/react-js/nxt-watch-linked-in-logo-img.png"
-              alt="linkedin logo"
+              alt="linked in logo"
             />
           </SideIconsContainer>
           <SideLowerPara>
-            Enjoy! Now you can see your recommodations!
+            Enjoy! Now to see your channels and recommendations!
           </SideLowerPara>
         </SideLowerContainer>
       </SidebarContainer>

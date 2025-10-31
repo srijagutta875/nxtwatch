@@ -207,10 +207,10 @@ export const SideLowerContainer = styled.div`
   margin: 15px;
 `
 
-export const SideContactUs = styled.h1`
+export const SideContactUs = styled.p`
   color: #1e293b;
-  font-weight: 20px;
-  font-size: 20px;
+  font-size: 25px;
+  font-weight: bold;
 `
 export const SideIconsContainer = styled.div`
   display: flex;
@@ -294,8 +294,8 @@ export const FailureContainer = styled.div`
   align-items: center;
 `
 export const HomeFailureImage = styled.img`
-  height: 30vh;
-  width: 20vw;
+  height: 40vh;
+  width: 30vw;
 `
 export const FailureHeading = styled.h1`
   color: #1e293b;
@@ -385,7 +385,7 @@ export const LoginsButton = styled.button`
   height: 35px;
   border-style: none;
   border-radius: 5px;
-  color: white;
+  color: #ffffff;
   font-weight: bold;
 `
 export const LoginErrorMsg = styled.p`
@@ -632,6 +632,7 @@ export const LogoutConfirmCont = styled.div`
 export const TrendingContainer = styled.div`
   min-height: 100vh;
   background-color: #f9f9f9;
+  overflow-x: hidden;
 `
 export const TrendingFirstContainer = styled.div`
   height: 15vh;
@@ -677,8 +678,25 @@ font-family: "Roboto"
   }
 `
 export const TrendingVideosThumb = styled.img`
-  height: 90%;
-  width: 50%;
+  width: 400px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+
+  @media screen and (max-width: 1200px) {
+    width: 320px;
+    height: 200px;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 50%;
+    height: auto;
+  }
+
+  @media screen and (max-width: 480px) {
+    width: 50%;
+    height: auto;
+  }
 `
 export const TrendingLogsInsideDiv = styled.div`
   display: flex;
@@ -796,4 +814,19 @@ export const GamingViewPara = styled.p`
 export const GamingVideosLink = styled(Link)`
   color: inherit;
   text-decoration: none;
+`
+export const MainSavingIcon = styled(MdPlaylistAdd)`
+  color: #ff0000;
+`
+export const NoSavingContainer = styled.div`
+  height: 90vh;
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 767px) {
+    height: 100vh;
+    width: 100vw;
+  }
 `

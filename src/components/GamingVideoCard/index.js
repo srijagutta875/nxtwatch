@@ -13,7 +13,7 @@ const GamingVideoCard = props => {
   return (
     <GamingVideoList>
       <GamingVideosLink to={`/videos/${id}`}>
-        <GamingVideoImg src={thumbnailUrl} alt={title} />
+        <GamingVideoImg src={thumbnailUrl} alt="video thumbnail" />
         <GamingVideoP>{title}</GamingVideoP>
         <GamingViewPara>{viewCount} Watching Worldwide</GamingViewPara>
       </GamingVideosLink>

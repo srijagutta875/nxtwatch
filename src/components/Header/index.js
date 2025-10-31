@@ -38,10 +38,14 @@ class Header extends Component {
         <HeaderContainer>
           <HeaderLogo
             src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-            alt="nxt watch logo"
+            alt="website logo"
           />
           <HeaderRightSideLg className="headerRightside">
-            <HeaderThemeButton type="button" className="headerthemeButton">
+            <HeaderThemeButton
+              type="button"
+              className="headerthemeButton"
+              data-testid="theme"
+            >
               <HeaderThemeIcon />
             </HeaderThemeButton>
             <HeaderProfileImage
@@ -61,7 +65,7 @@ class Header extends Component {
             >
               {close => (
                 <LogoutConfirmCont>
-                  <LogoutPa>Are you sure you want to logout?</LogoutPa>
+                  <LogoutPa>Are you sure, you want to logout</LogoutPa>
                   <div>
                     <LogoutCancelButton
                       type="button"
@@ -82,7 +86,7 @@ class Header extends Component {
             </Popup>
           </HeaderRightSideLg>
           <HeaderRightSideSm>
-            <HeaderThemeButton type="button">
+            <HeaderThemeButton type="button" data-testid="theme">
               <HeaderThemeIcon />
             </HeaderThemeButton>
             <HeaderThemeButton type="button" onClick={onToggleChange}>
